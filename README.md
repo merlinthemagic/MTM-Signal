@@ -8,26 +8,25 @@ Send and receive messages using the Signal Messenger. This project is a wrapper 
 
 ### Requirements:
 
-PHP 7.x
-JRE 11
+Linux, PHP 7.x, JRE 11
 
 ### Minimal package install on CentOS 7:
 
 ```
 yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum install php74-php-cli --enablerepo=remi
+ln -s /usr/bin/php74 /usr/bin/php
 yum install java-11-openjdk
+curl -sS https://getcomposer.org/installer | php
 
 ```
-
-
 
 ##Quick start:
 
 ### Composer install:
 
 ```
-composer require merlinthemagic/mtm-signal
+composer require merlinthemagic/mtm-signal-api
 ```
 
 ### Include Autoloader:

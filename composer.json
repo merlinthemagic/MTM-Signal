@@ -12,8 +12,8 @@
 	],
 	"require" : {
 		"php" : "^7.3.0",
-		"merlinthemagic/mtm-utilities" : "^0.0.1",
-		"merlinthemagic/mtm-fs" : "^0.0.1"
+		"merlinthemagic/mtm-utilities" : ">=0.0.1",
+		"merlinthemagic/mtm-fs" : ">=0.0.1"
 	},
 	"minimum-stability" : "dev"
 }
