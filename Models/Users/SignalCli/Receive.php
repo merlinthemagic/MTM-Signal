@@ -46,7 +46,7 @@ abstract class Receive extends Lists
 		}
 		
 		$rObj		= new \MTM\SignalApi\Models\Messages\SignalCli\Data\Zstance();
-		$rObj->initialize($this, $envObj->timestamp);
+		$rObj->initialize($this, $envObj->timestamp, "DataMessage");
 
 		$msgObj		= $envObj->dataMessage;
 		if (property_exists($msgObj, "message") === false) {

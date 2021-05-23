@@ -6,6 +6,7 @@ abstract class Base extends \MTM\SignalApi\Models\Messages\Base
 {
 	protected $_userObj=null;
 	protected $_timestamp=null;
+	protected $_msgType=null;
 	
 	public function getUser()
 	{
@@ -15,7 +16,11 @@ abstract class Base extends \MTM\SignalApi\Models\Messages\Base
 	{
 		return $this->_timestamp;
 	}
-	public function initialize($userObj, $timestamp)
+	public function getType()
+	{
+		return $this->_msgType;
+	}
+	public function initialize($userObj, $timestamp, $type)
 	{
 		if ($userObj instanceof \MTM\SignalApi\Models\Users\SignalCli\Base === false) {
 			throw new \Exception("Invalid user input");
@@ -25,7 +30,7 @@ abstract class Base extends \MTM\SignalApi\Models\Messages\Base
 		
 		$this->_userObj		= $userObj;
 		$this->_timestamp	= $timestamp;
-		
+		$this->_msgType		= $type;
 		return $this;
 	}
 }

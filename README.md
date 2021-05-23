@@ -10,7 +10,36 @@ Send and receive messages using the Signal Messenger. This project is a wrapper 
 
 Linux, PHP 7.x, JRE 11
 
-### Minimal package install on CentOS 7:
+### Composer install:
+
+Install the lib via composer:
+
+```
+composer require merlinthemagic/mtm-signal-api
+
+```
+
+### Manual install:
+
+If you prefer you can simply download the 3 packages separately and include their autoloaders in yur project.
+
+```
+require_once "/path/to/mtm-utilities/Enable.php";
+require_once "/path/to/mtm-fs/Enable.php";
+require_once "/path/to/mtm-signal-api/Enable.php";
+
+```
+
+### Post install:
+
+You must make the signal-cli binary executable:
+
+```
+chmod +x /path/to/mtm-signal-api/Vendors/SignalCli/bin/signal-cli
+
+```
+
+### Example minimal package install on CentOS 7 with composer:
 
 ```
 yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
@@ -19,21 +48,13 @@ ln -s /usr/bin/php74 /usr/bin/php
 yum install java-11-openjdk
 curl -sS https://getcomposer.org/installer | php
 
+chmod +x /path/to/mtm-signal-api/Vendors/SignalCli/bin/signal-cli
+
 ```
+
 
 ##Quick start:
 
-### Composer install:
-
-```
-composer require merlinthemagic/mtm-signal-api
-```
-
-### Include Autoloader:
-
-```
-require_once "/path/to/mtm-signal/Enable.php";
-```
 
 ### Get a Client:
 
@@ -45,8 +66,7 @@ $safePath		= "/path/to/secure/folder/";
 //For testing on linux you can use the following:
 //$safePath		= MTM_FS_TEMP_PATH. "sigtest";
 
-$clientObj		= \MTM\SignalApi\Facts::getClients()->getSignalCli();
-$clientObj->setDefaultDataDir($safePath);
+$clientObj		= \MTM\SignalApi\Facts::getClients()->getSignalCli($safePath);
 ```
 
 ### Get a user to work with:
