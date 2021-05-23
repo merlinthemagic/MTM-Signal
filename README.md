@@ -39,6 +39,7 @@ chmod +x /path/to/mtm-signal-api/Vendors/SignalCli/bin/signal-cli
 
 ```
 
+
 ##Quick start:
 
 
@@ -139,14 +140,14 @@ $userObj->linkDeviceByUri($uri); //will throw on error
 $array			= $userObj->getIdentities(); //will throw on error
 ```
 
-#### Get Devices:
+#### Get Devices (not-ready):
 
 ```
 //return array of device objects
 $array			= $userObj->getDevices(); //will throw on error
 ```
 
-#### Get Contacts:
+#### Get Contacts (not-ready):
 
 ```
 //return array of Contact objs
