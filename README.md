@@ -39,20 +39,6 @@ chmod +x /path/to/mtm-signal-api/Vendors/SignalCli/bin/signal-cli
 
 ```
 
-### Example minimal package install on CentOS 7 with composer:
-
-```
-yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-yum install php74-php-cli --enablerepo=remi
-ln -s /usr/bin/php74 /usr/bin/php
-yum install java-11-openjdk
-curl -sS https://getcomposer.org/installer | php
-
-chmod +x /path/to/mtm-signal-api/Vendors/SignalCli/bin/signal-cli
-
-```
-
-
 ##Quick start:
 
 
