@@ -2,7 +2,7 @@
 	"name" : "merlinthemagic/mtm-signal-api",
 	"type" : "library",
 	"description" : "PHP Signal Api",
-	"version" : "0.0.1",
+	"version" : "0.0.2",
 	"homepage" : "https://github.com/merlinthemagic/MTM-Signal",
 	"authors" : [{
 			"name" : "Martin Peter Madsen",
@@ -14,6 +14,11 @@
 		"php" : "^7.3.0",
 		"merlinthemagic/mtm-utilities" : ">=0.0.1",
 		"merlinthemagic/mtm-fs" : ">=0.0.1"
+	},
+	"autoload" : {
+		"files" : [
+			"./Enable.php"
+		]
 	},
 	"minimum-stability" : "dev"
 }
