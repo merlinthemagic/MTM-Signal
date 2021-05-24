@@ -18,7 +18,7 @@ abstract class Link extends Initialize
 			if (is_string($deviceName) === false) {
 				throw new \Exception("Invalid input");
 			}
-			$strCmd		.= " -n \"".$deviceName."\"";
+			$strCmd		.= " -n ".$this->getSafeArg($deviceName)."";
 		}
 		$strCmd		.= " > ".$tmpFile->getPathAsString();
 		$strCmd		.= " 2> ".$tmpFile->getPathAsString();

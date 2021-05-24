@@ -7,7 +7,7 @@ abstract class Lists extends Link
 	public function listIdentities($userObj)
 	{
 		if ($userObj->getUserType() == "phoneNbr") {
-			$strCmd			= "-u ".$userObj->getUsername()." listIdentities";
+			$strCmd			= "-u ".$this->getSafeArg($userObj->getUsername())." listIdentities";
 			$rObj			= $this->exeCmd($userObj, $strCmd);
 
 			if ($rObj->error != "") {
@@ -62,7 +62,7 @@ abstract class Lists extends Link
 	public function listDevices($userObj)
 	{
 		if ($userObj->getUserType() == "phoneNbr") {
-			$strCmd			= "-u ".$userObj->getUsername()." listDevices";
+			$strCmd			= "-u ".$this->getSafeArg($userObj->getUsername())." listDevices";
 			$rObj			= $this->exeCmd($userObj, $strCmd);
 			if ($rObj->error != "") {
 				throw new \Exception("Failed to list devices: ".$rObj->error);
@@ -104,7 +104,7 @@ abstract class Lists extends Link
 	public function listContacts($userObj)
 	{
 		if ($userObj->getUserType() == "phoneNbr") {
-			$strCmd			= "-u ".$userObj->getUsername()." listContacts";
+			$strCmd			= "-u ".$this->getSafeArg($userObj->getUsername())." listContacts";
 			$rObj			= $this->exeCmd($userObj, $strCmd);
 			if ($rObj->error != "") {
 				throw new \Exception("Failed to list contacts: ".$rObj->error);

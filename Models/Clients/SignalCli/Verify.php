@@ -14,11 +14,11 @@ abstract class Verify extends Send
 				$code	= (string) $code;
 			}
 		}
-		if (is_string($code) === false || strlen($code) !== 6) {
+		if (is_string($code) === false || ctype_digit($code) === false || strlen($code) !== 6) {
 			throw new \Exception("Invalid SMS code. Must be a string consisting of 6 digits");
 		}
 		if ($userObj->getUserType() == "phoneNbr") {
-			$strCmd		= "-u ".$userObj->getUsername()." verify ".$code;
+			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." verify ".$this->getSafeArg($code);
 			$rObj		= $this->exeCmd($userObj, $strCmd);
 			if ($rObj->error != "") {
 				throw new \Exception("Failed to verify: ".$rObj->error);

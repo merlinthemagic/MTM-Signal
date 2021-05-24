@@ -34,4 +34,9 @@ abstract class Base extends \MTM\SignalApi\Models\Clients\Base
 		}
 		return $this->_userObjs[$hash];
 	}
+	protected function getSafeArg($str)
+	{
+		//escape arguments
+		return \MTM\Utilities\Factories::getStrings()->getEscape()->getSingleQuotedShellCmd($str);
+	}
 }

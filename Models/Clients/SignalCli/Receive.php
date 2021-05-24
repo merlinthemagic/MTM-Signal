@@ -8,7 +8,7 @@ abstract class Receive extends Lists
 	{
 		if ($userObj->getUserType() == "phoneNbr") {
 			
-			$strCmd		= "-u ".$userObj->getUsername()." -o json receive";
+			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." -o json receive";
 			$rObj		= $this->exeCmd($userObj, $strCmd);
 			if ($rObj->error != "") {
 				throw new \Exception("Failed to receive: ".$rObj->error);

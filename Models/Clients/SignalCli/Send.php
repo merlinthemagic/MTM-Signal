@@ -17,7 +17,7 @@ abstract class Send extends Register
 			}
 		}
 		if ($userObj->getUserType() == "phoneNbr") {
-			$strCmd		= "-u ".$userObj->getUsername()." send -m '".$text."' ".$username;
+			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." send -m ".$this->getSafeArg($text)." ".$this->getSafeArg($username);
 			$rObj		= $this->exeCmd($userObj, $strCmd);
 			if ($rObj->error != "") {
 				throw new \Exception("Failed to send: ".$rObj->error);
