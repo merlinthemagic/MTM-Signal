@@ -4,7 +4,7 @@ namespace MTM\SignalApi\Models\Clients\SignalCli;
 
 abstract class Verify extends Send
 {
-	public function verifyBySmsCode($userObj, $code)
+	public function verifyByCode($userObj, $code)
 	{
 		if (is_int($code) === true) {
 			//deal with ints, we must keep leading zeros
@@ -15,7 +15,7 @@ abstract class Verify extends Send
 			}
 		}
 		if (is_string($code) === false || ctype_digit($code) === false || strlen($code) !== 6) {
-			throw new \Exception("Invalid SMS code. Must be a string consisting of 6 digits");
+			throw new \Exception("Invalid code. Must be a string consisting of 6 digits");
 		}
 		if ($userObj->getUserType() == "phoneNbr") {
 			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." verify ".$this->getSafeArg($code);

@@ -4,7 +4,7 @@ namespace MTM\SignalApi\Models\Groups\SignalCli;
 
 abstract class Initialize extends Base
 {
-	public function initialize($userObj, $id, $name, $desc, $isMember, $isAdmin, $blocked, $members, $admins)
+	public function initialize($userObj, $id, $name, $desc, $link, $isMember, $isAdmin, $blocked, $members, $admins)
 	{
 		if ($userObj instanceof \MTM\SignalApi\Models\Users\SignalCli\Base === false) {
 			throw new \Exception("Invalid user input");
@@ -12,6 +12,8 @@ abstract class Initialize extends Base
 			throw new \Exception("Invalid name input");
 		} elseif (is_string($desc) === false && is_null($desc) === false) {
 			throw new \Exception("Invalid description input");
+		} elseif (is_string($link) === false && is_null($link) === false) {
+			throw new \Exception("Invalid link input");
 		} elseif (is_bool($isMember) === false) {
 			throw new \Exception("Invalid isMember input");
 		} elseif (is_bool($isAdmin) === false) {
@@ -27,6 +29,7 @@ abstract class Initialize extends Base
 		$this->_id			= $id;
 		$this->_name		= $name;
 		$this->_desc		= $desc;
+		$this->_inviteLink	= $link;
 		$this->_isMember	= $isMember;
 		$this->_isAdmin		= $isAdmin;
 		$this->_blocked		= $blocked;

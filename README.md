@@ -64,7 +64,9 @@ $userObj	= $clientObj->getUser($phoneNumber);
 
 ```
 
-#### Register New Account via Captcha:
+### Register New Account 
+
+####Register via Captcha:
 
 WARNING! This method will disconnect any existing devices from the phone number.
 You will be taking over the account, not linking a new device
@@ -80,20 +82,58 @@ $userObj->registerByCaptcha($captcha); //will throw on error
 
 You will receive an SMS code on your device, use that to run the next step of verification
 
-#### Verify New Account via SMS code:
+####Register via Voice:
+
+```
+$userObj->registerByVoice();
+```
+
+####Is a phone number registered:
+
+```
+$nbr		= "+13106545322";
+$bool		= $userObj->isPhoneRegistered($nbr);
+```
+
+
+### Verify New Account 
+
+#### Verify via SMS code:
 
 ```
 $code			= "234568";
 $userObj->verifyBySmsCode($code); //will throw on error
 ```
 
+#### Verify via Voice code:
 
-#### Send a text message from phone number to phone number:
+```
+$code			= "863457";
+$userObj->verifyByVoiceCode($code); //will throw on error
+```
+
+### Send message:
+
+#### Text From user to phone number:
 
 ```
 $toNbr			= "+13109981100";
 $msg			= "Hi Mom,\nPlease buy food, im so hungry!\nThx";
-$timeStamp		= $userObj->sendText($toNbr, $msg); //will throw on error
+$timeStamp		= $userObj->sendText($toNbr, $msg);
+```
+
+#### Text From user to contact:
+
+```
+$msg			= "Hi Baby,\nPlease buy food, im so hungry!\nThx";
+$timeStamp		= $contactObj->sendText($msg);
+```
+
+#### Text From user to group:
+
+```
+$msg			= "Hi Parents,\nPlease buy food, im so hungry!\nThx";
+$timeStamp		= $groupObj->sendText($msg);
 ```
 
 #### Receive pending messages for a phone number:
@@ -208,6 +248,14 @@ $groupObj->setEditDetailAdminOnly($adminOnly);
 ```
 $adminOnly				= true; //true or false
 $groupObj->setAddMemberAdminOnly($adminOnly);
+```
+
+#### Set Group Add members permission:
+
+```
+$enabled			= true; //true or false
+$withApproval		= true; //true or false
+$groupObj->setLinkState($enabled, $withApproval);
 ```
 
 

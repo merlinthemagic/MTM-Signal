@@ -14,7 +14,8 @@ abstract class Base extends \MTM\SignalApi\Models\Groups\Base
 	protected $_grpHash=null;
 	protected $_memberObjs=null;
 	protected $_adminObjs=null;
-	
+	protected $_inviteLink=null;
+
 	public function getUser()
 	{
 		return $this->_userObj;
@@ -40,6 +41,15 @@ abstract class Base extends \MTM\SignalApi\Models\Groups\Base
 	{
 		return $this->_desc;
 	}
+	public function setDescription($text)
+	{
+		$text	= trim($text);
+		if ($this->getDescription() != $text) {
+			$this->getUser()->getClient()->setGroupDescription($this, $text);
+			$this->_desc	= $text;
+		}
+		return $this;
+	}
 	public function getIsMember()
 	{
 		return $this->_isMember;
@@ -51,6 +61,10 @@ abstract class Base extends \MTM\SignalApi\Models\Groups\Base
 	public function getBlocked()
 	{
 		return $this->_blocked;
+	}
+	public function getInviteLink()
+	{
+		return $this->_inviteLink;
 	}
 	public function getHash()
 	{
@@ -132,5 +146,15 @@ abstract class Base extends \MTM\SignalApi\Models\Groups\Base
 			}
 		}
 		throw new \Exception("Cannot remove contact is not an admin of the group");
+	}
+	public function setLinkState($enabled, $withApproval=false)
+	{
+		$this->getUser()->getClient()->setGroupLinkState($this, $enabled, $withApproval);
+		if ($enabled === true && $this->getInviteLink() === null) {
+			$this->getUser()->getGroups(true);//update link
+		} elseif ($enabled === false && $this->getInviteLink() !== null) {
+			$this->_inviteLink	= null;
+		}
+		return $this;
 	}
 }

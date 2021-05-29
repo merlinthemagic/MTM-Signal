@@ -28,29 +28,6 @@ abstract class Groups extends Exec
 			throw new \Exception("Not handled for user type: ".$userObj->getUserType());
 		}
 	}
-	public function setGroupName($grpObj, $name=null)
-	{
-		if ($grpObj instanceof \MTM\SignalApi\Models\Groups\SignalCli\Base === false) {
-			throw new \Exception("Invalid group input");
-		} elseif (is_string($name) === false && is_null($name) === false) {
-			throw new \Exception("Invalid name input");
-		}
-		$userObj	= $grpObj->getUser();
-		if ($userObj->getUserType() == "phoneNbr") {
-			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." updateGroup";
-			$strCmd		.= " -g ".$this->getSafeArg($grpObj->getId())." -n ".$this->getSafeArg($name);
-			$rObj		= $this->exeCmd($userObj, $strCmd);
-			if ($rObj->error != "") {
-				throw new \Exception("Failed to set group name: ".$rObj->error);
-			} elseif (ctype_digit($rObj->data) === true) {
-				return (int) $rObj->data;
-			} else {
-				throw new \Exception("Invalid return: '".$rObj->data."'");
-			}
-		} else {
-			throw new \Exception("Not handled for user type: ".$userObj->getUserType());
-		}
-	}
 	public function addGroupMember($grpObj, $contactObj)
 	{
 		if ($grpObj instanceof \MTM\SignalApi\Models\Groups\SignalCli\Base === false) {
@@ -163,6 +140,52 @@ abstract class Groups extends Exec
 			throw new \Exception("Not handled for user type: ".$userObj->getUserType());
 		}
 	}
+	public function setGroupName($grpObj, $name=null)
+	{
+		if ($grpObj instanceof \MTM\SignalApi\Models\Groups\SignalCli\Base === false) {
+			throw new \Exception("Invalid group input");
+		} elseif (is_string($name) === false && is_null($name) === false) {
+			throw new \Exception("Invalid name input");
+		}
+		$userObj	= $grpObj->getUser();
+		if ($userObj->getUserType() == "phoneNbr") {
+			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." updateGroup";
+			$strCmd		.= " -g ".$this->getSafeArg($grpObj->getId())." -n ".$this->getSafeArg($name);
+			$rObj		= $this->exeCmd($userObj, $strCmd);
+			if ($rObj->error != "") {
+				throw new \Exception("Failed to set group name: ".$rObj->error);
+			} elseif (ctype_digit($rObj->data) === true) {
+				return (int) $rObj->data;
+			} else {
+				throw new \Exception("Invalid return: '".$rObj->data."'");
+			}
+		} else {
+			throw new \Exception("Not handled for user type: ".$userObj->getUserType());
+		}
+	}
+	public function setGroupDescription($grpObj, $desc=null)
+	{
+		if ($grpObj instanceof \MTM\SignalApi\Models\Groups\SignalCli\Base === false) {
+			throw new \Exception("Invalid group input");
+		} elseif (is_string($desc) === false && is_null($desc) === false) {
+			throw new \Exception("Invalid desc input");
+		}
+		$userObj	= $grpObj->getUser();
+		if ($userObj->getUserType() == "phoneNbr") {
+			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." updateGroup";
+			$strCmd		.= " -g ".$this->getSafeArg($grpObj->getId())." -d ".$this->getSafeArg($desc);
+			$rObj		= $this->exeCmd($userObj, $strCmd);
+			if ($rObj->error != "") {
+				throw new \Exception("Failed to set group description: ".$rObj->error);
+			} elseif (ctype_digit($rObj->data) === true) {
+				return (int) $rObj->data;
+			} else {
+				throw new \Exception("Invalid return: '".$rObj->data."'");
+			}
+		} else {
+			throw new \Exception("Not handled for user type: ".$userObj->getUserType());
+		}
+	}
 	public function setGroupPermissionAddMember($grpObj, $adminOnly)
 	{
 		if ($grpObj instanceof \MTM\SignalApi\Models\Groups\SignalCli\Base === false) {
@@ -212,6 +235,41 @@ abstract class Groups extends Exec
 			$rObj		= $this->exeCmd($userObj, $strCmd);
 			if ($rObj->error != "") {
 				throw new \Exception("Failed to set edit detail permission: ".$rObj->error);
+			} elseif (ctype_digit($rObj->data) === true) {
+				return (int) $rObj->data;
+			} else {
+				throw new \Exception("Invalid return: '".$rObj->data."'");
+			}
+		} else {
+			throw new \Exception("Not handled for user type: ".$userObj->getUserType());
+		}
+	}
+	public function setGroupLinkState($grpObj, $enabled, $withApproval)
+	{
+		if ($grpObj instanceof \MTM\SignalApi\Models\Groups\SignalCli\Base === false) {
+			throw new \Exception("Invalid group input");
+		} elseif (is_bool($enabled) === false) {
+			throw new \Exception("Invalid enabled input");
+		} elseif (is_bool($withApproval) === false) {
+			throw new \Exception("Invalid with approval input");
+		}
+		$userObj	= $grpObj->getUser();
+		if ($userObj->getUserType() == "phoneNbr") {
+			if ($enabled === true) {
+				if ($withApproval === true) {
+					$perm	= "enabled-with-approval";
+				} else {
+					$perm	= "enabled";
+				}
+				
+			} else {
+				$perm	= "disabled";
+			}
+			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." updateGroup";
+			$strCmd		.= " -g ".$this->getSafeArg($grpObj->getId())." --link ".$this->getSafeArg($perm);
+			$rObj		= $this->exeCmd($userObj, $strCmd);
+			if ($rObj->error != "") {
+				throw new \Exception("Failed to set group link state: ".$rObj->error);
 			} elseif (ctype_digit($rObj->data) === true) {
 				return (int) $rObj->data;
 			} else {

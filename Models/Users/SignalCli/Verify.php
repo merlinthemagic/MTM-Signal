@@ -6,6 +6,11 @@ abstract class Verify extends Send
 {
 	public function verifyBySmsCode($code)
 	{
-		return $this->getClient()->verifyBySmsCode($this, $code);
+		return $this->getClient()->verifyByCode($this, $code);
+	}
+	public function verifyByVoiceCode($code)
+	{
+		//no diff here in case the verification changes
+		return $this->getClient()->verifyByCode($this, $code);
 	}
 }

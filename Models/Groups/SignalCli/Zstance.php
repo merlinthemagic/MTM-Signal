@@ -2,7 +2,7 @@
 //© 2021 Martin Peter Madsen
 namespace MTM\SignalApi\Models\Groups\SignalCli;
 
-class Zstance extends Initialize
+class Zstance extends Send
 {
 
 }

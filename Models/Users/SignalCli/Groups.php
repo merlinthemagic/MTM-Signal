@@ -52,10 +52,10 @@ abstract class Groups extends Contacts
 				}
 				
 				//name and description can be null
-				$nObjs[$hash]	= $cObj->initialize($this, $rObj->id, $rObj->name, $rObj->description, $rObj->isMember, $isAdmin, $rObj->isBlocked, $memberObjs, $adminObjs);
+				$nObjs[$hash]	= $cObj->initialize($this, $rObj->id, $rObj->name, $rObj->description, $rObj->groupInviteLink, $rObj->isMember, $isAdmin, $rObj->isBlocked, $memberObjs, $adminObjs);
 
 				//need to implement:
-				//pendingMembers, requestingMembers, groupInviteLink
+				//pendingMembers, requestingMembers, 
 			}
 			$this->_groupObjs	= $nObjs;
 		}
