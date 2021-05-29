@@ -22,10 +22,14 @@ abstract class Receive extends Lists
 			} elseif (property_exists($envObj, "receiptMessage") === true) {
 				$rObj	= $this->getReceiptMessage($envObj);
 			} elseif (property_exists($envObj, "syncMessage") === true) {
-				$rObj	= $this->getSyncMessage($envObj);
+// 				$rObj	= $this->getSyncMessage($envObj);
+			} elseif (property_exists($envObj, "typingMessage") === true) {
+// 				$rObj	= $this->getTypingMessage($envObj);
 			} else {
 				//deal with other types of messages
 			}
+			
+			
 			
 			if ($rObj !== null) {
 				$rObjs[]	= $rObj;

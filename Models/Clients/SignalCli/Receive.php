@@ -16,8 +16,6 @@ abstract class Receive extends Lists
 			$msgObjs	= array();
 			$lines		= array_filter(explode("\n", $rObj->data));
 			foreach ($lines as $line) {
-				file_put_contents("/dev/shm/merlin.txt", print_r($line, true)."\n", FILE_APPEND);
-				
 				$rObj	= json_decode(trim($line));
 				if ($rObj instanceof \stdClass === false) {
 					throw new \Exception("Invalid message: ".$line);
