@@ -100,7 +100,14 @@ $timeStamp		= $userObj->sendText($toNbr, $msg); //will throw on error
 
 ```
 //return array of message objects
-$array		= $userObj->receive(); //will throw on error
+$msgObjs		= $userObj->receive(); //will throw on error
+foreach ($msgObjs as $msgObj) {
+	if ($msgObj->getType() == "DataMessage") {
+			echo $msgObj->getMessage()."<br><br>";
+	} elseif ($msgObj->getType() == "ReceiptMessage") {
+			echo $msgObj->getWhen()."<br><br>";
+	}
+}
 ```
 
 #### Link to a master account:
@@ -133,23 +140,138 @@ $uri		= "tsdevice:/?uuid=BBm...";
 $userObj->linkDeviceByUri($uri); //will throw on error
 ```
 
-#### Get Identities:
+
+### Contacts:
+
+#### Get Contacts:
+
+```
+//return array of Contact objs
+$array			= $userObj->getContacts(); //will throw on error
+```
+
+#### Get Contact By Username:
+
+```
+//return contact obj, null or throws
+$username		= "+13109997765";
+$throw			= false;
+$contactObj	= $userObj->getContactByUsername($username, $throw);
+```
+
+
+
+### Groups:
+
+
+#### Get Groups:
+
+```
+//return array of Group objs
+$array			= $userObj->getGroups(); //will throw on error
+```
+
+#### Get Group By ID:
+
+```
+//return group obj, null or throws
+$id				= "efefekneef....";
+$throw			= false;
+$groupObj		= $userObj->getGroupById($id, $throw);
+```
+
+#### Create Group:
+
+```
+//return group obj
+$name				= "My Group";
+$groupObj			= $userObj->createGroups($name); //will throw on error
+```
+
+#### Set Group Name:
+
+```
+//return group obj
+$name				= "My New Group Name";
+$groupObj->setName($name);
+```
+
+#### Set Group Edit detail permission:
+
+```
+$adminOnly				= true; //true or false
+$groupObj->setEditDetailAdminOnly($adminOnly);
+```
+
+#### Set Group Add members permission:
+
+```
+$adminOnly				= true; //true or false
+$groupObj->setAddMemberAdminOnly($adminOnly);
+```
+
+
+#### Add Member to group:
+
+```
+$contactObj	= $userObj->getContactByUsername("+13109997765");
+$groupObj->addMember($contactObj);
+```
+
+#### Remove Member from group:
+
+```
+$contactObj	= $userObj->getContactByUsername("+13109997765");
+$groupObj->removeMember($contactObj);
+```
+
+#### Get Group Members:
+
+```
+//Does not return user self. Use $groupObj->getIsMember() to determine user membership
+
+//return array of Contact objs
+$array		= $groupObj->getMembers();
+```
+
+#### Add Admin to group:
+
+```
+$contactObj	= $userObj->getContactByUsername("+13109997765");
+$groupObj->addAdmin($contactObj);
+```
+
+#### Remove Admin from group:
+
+```
+$contactObj	= $userObj->getContactByUsername("+13109997765");
+$groupObj->removeAdmin($contactObj);
+```
+
+#### Get Group Admins:
+
+```
+//Does not return user self. Use $groupObj->getIsAdmin() to determine user is admin
+
+//return array of Contact objs
+$array		= $groupObj->getAdmins();
+```
+
+
+#### Identities:
+
+#### Get Identities (not-ready):
 
 ```
 //return array of identity objects
 $array			= $userObj->getIdentities(); //will throw on error
 ```
 
+#### Devices:
+
 #### Get Devices (not-ready):
 
 ```
 //return array of device objects
 $array			= $userObj->getDevices(); //will throw on error
-```
-
-#### Get Contacts (not-ready):
-
-```
-//return array of Contact objs
-$array			= $userObj->getContacts(); //will throw on error
 ```

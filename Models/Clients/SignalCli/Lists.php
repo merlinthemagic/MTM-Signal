@@ -109,7 +109,6 @@ abstract class Lists extends Link
 			if ($rObj->error != "") {
 				throw new \Exception("Failed to list contacts: ".$rObj->error);
 			}
-
 			$cObjs		= array();
 			$lines		= array_filter(explode("\n", $rObj->data));
 			foreach ($lines as $line) {
@@ -148,6 +147,25 @@ abstract class Lists extends Link
 				$cObjs[]	= $cObj;
 			}
 			return $cObjs;
+			
+		} else {
+			throw new \Exception("Not handled for user type: ".$userObj->getUserType());
+		}
+	}
+	public function listGroups($userObj)
+	{
+		if ($userObj->getUserType() == "phoneNbr") {
+			$strCmd			= "-o json -u ".$this->getSafeArg($userObj->getUsername())." listGroups";
+			$rObj			= $this->exeCmd($userObj, $strCmd);
+			if ($rObj->error != "") {
+				throw new \Exception("Failed to list groups: ".$rObj->error);
+			}
+			$json			= json_decode($rObj->data);
+			if (is_array($json) === true) {
+				return $json;
+			} else {
+				throw new \Exception("Invalid return: '".$rObj->data."'");
+			}
 			
 		} else {
 			throw new \Exception("Not handled for user type: ".$userObj->getUserType());

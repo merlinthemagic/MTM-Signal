@@ -2,7 +2,7 @@
 //© 2021 Martin Peter Madsen
 namespace MTM\SignalApi\Models\Users\SignalCli;
 
-abstract class Initialize extends Contacts
+abstract class Initialize extends Groups
 {
 	public function initialize($clientObj, $username, $dataPath)
 	{

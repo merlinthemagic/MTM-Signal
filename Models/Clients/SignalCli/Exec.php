@@ -4,7 +4,7 @@ namespace MTM\SignalApi\Models\Clients\SignalCli;
 
 abstract class Exec extends Base
 {
-	protected $_cmdTimeout=10000;
+	protected $_cmdTimeout=25000;
 	protected $_ctrlObj=null;
 	
 	public function getTimeout()
@@ -25,16 +25,19 @@ abstract class Exec extends Base
 		}
 		return $this->_ctrlObj;
 	}
-	protected function exeCmd($userObj, $strCmd)
+	protected function exeCmd($userObj, $strCmd, $timeout=null)
 	{
+		if ($timeout === null) {
+			$timeout	= $this->getTimeout();
+		}
 		//add MtmEmpty/MtmError so data/errors are returned quickly and do not just time out
 		$this->initialize();
 		$baseCmd		= $this->getSignalBinFile()->getPathAsString();
 		$baseCmd		.= " --config \"".$userObj->getDataDir()->getPathAsString()."\"";
-		$strCmd			= $baseCmd." ".$strCmd." | base64 -w0  && echo \"MtmEmpty\" || echo \"MtmError\"";
+		$strCmd			= $baseCmd." ".$strCmd." | base64 -w0; echo \"MtmEmpty\" || echo \"MtmError\"";
 
 		$this->ctrlWrite($strCmd);
-		$rObj			= $this->ctrlRead($this->getTimeout());
+		$rObj			= $this->ctrlRegExRead("(MtmEmpty|MtmError)", $timeout);
 		$rObj->data		= trim(base64_decode(rtrim(trim($rObj->data), "MtmEmpty")));
 		$rObj->error	= rtrim(trim($rObj->error), "MtmError");
 		return $rObj;
@@ -44,8 +47,12 @@ abstract class Exec extends Base
 		$this->getCtrl()->write($strCmd);
 		return $this;
 	}
+	protected function ctrlRegExRead($regEx, $timeout)
+	{
+		return $this->getCtrl()->readRegEx($regEx, $timeout);
+	}
 	protected function ctrlRead($timeout)
 	{
 		return $this->getCtrl()->read($timeout);
-	}
+	}	
 }

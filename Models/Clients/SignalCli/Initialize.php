@@ -2,7 +2,7 @@
 //© 2021 Martin Peter Madsen
 namespace MTM\SignalApi\Models\Clients\SignalCli;
 
-abstract class Initialize extends Exec
+abstract class Initialize extends Groups
 {
 	protected $_isInit=false;
 	protected $_signalBin=null;

@@ -38,8 +38,14 @@ abstract class Contacts extends Base
 		} elseif (is_bool($throw) === false) {
 			throw new \Exception("Invalid throw input");
 		}
-		$this->getContacts(false); //makes no sense to refresh here, refresh can be called seperately
+		$this->getContacts(false); //find contact with out refreshing
 		$hash	= hash("sha256", strtolower(trim($username)).strtolower(trim($this->getUsername())));
+		if (array_key_exists($hash, $this->_contactObjs) === true) {
+			return $this->_contactObjs[$hash];
+		}
+			
+		//try refreshing to find the contact
+		$this->getContacts(true);
 		if (array_key_exists($hash, $this->_contactObjs) === true) {
 			return $this->_contactObjs[$hash];
 		} elseif ($throw === true) {

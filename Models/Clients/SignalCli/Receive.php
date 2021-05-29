@@ -4,12 +4,12 @@ namespace MTM\SignalApi\Models\Clients\SignalCli;
 
 abstract class Receive extends Lists
 {
-	public function receiveMessages($userObj)
+	public function receiveMessages($userObj, $timeout=null)
 	{
 		if ($userObj->getUserType() == "phoneNbr") {
 			
 			$strCmd		= "-u ".$this->getSafeArg($userObj->getUsername())." -o json receive";
-			$rObj		= $this->exeCmd($userObj, $strCmd);
+			$rObj		= $this->exeCmd($userObj, $strCmd, $timeout);
 			if ($rObj->error != "") {
 				throw new \Exception("Failed to receive: ".$rObj->error);
 			}
