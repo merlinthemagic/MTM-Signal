@@ -31,7 +31,6 @@ systemctl status signal-cli.service
 /path/to/Mtm-Signal-Api/Vendors/SignalCli/bin/signal-cli --dbus-system --config "/var/lib/signal-cli/" -o json -u '+12134562345' receive
 
 
-
 ##Troubleshooting
 dbus-send --system --print-reply --dest="org.freedesktop.DBus" /org/freedesktop/DBus org.freedesktop.DBus.ListActivatableNames
 systemctl status dbus.service
