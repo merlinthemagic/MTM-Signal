@@ -96,7 +96,7 @@ dbus-send --system --print-reply --type=method_call --dest="org.asamk.Signal" /o
 ```
  
 
-####Random notes:
+### Random notes:
 
 ```
 dbus-send --system --print-reply --dest="org.freedesktop.DBus" /org/freedesktop/DBus org.freedesktop.DBus.ListActivatableNames
