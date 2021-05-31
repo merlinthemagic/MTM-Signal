@@ -56,8 +56,10 @@ systemctl status signal-cli.service
 
 dbus is not going to kick off until someone talks to it
 
+NOTE: replace PHONENBR with a registred number and RECEIVERNBR with the destination number
+
 ```
-dbus-send --system --print-reply --type=method_call --dest="org.asamk.Signal" /org/asamk/Signal org.asamk.Signal.sendMessage string:"Hello World" array:string: string:+13103456789
+dbus-send --system --print-reply --type=method_call --dest="org.asamk.Signal" /org/asamk/Signal/_PHONENBR org.asamk.Signal.sendMessage string:"Hello World" array:string: string:+RECEIVERNBR
 ```
 
 
@@ -78,10 +80,23 @@ ACTON: change the to reflect your binary path before executing
 
 ##Troubleshooting
 
-Random notes
+
+### List registered numbers:
+
+```
+dbus-send --system --print-reply --type=method_call --dest="org.asamk.Signal" /org/asamk/Signal org.freedesktop.DBus.Introspectable.Introspect
+```
+
+
+####Random notes:
 
 ```
 dbus-send --system --print-reply --dest="org.freedesktop.DBus" /org/freedesktop/DBus org.freedesktop.DBus.ListActivatableNames
+
+##List numbers
+dbus-send --system --print-reply --type=method_call --dest="org.asamk.Signal" /org/asamk/Signal org.freedesktop.DBus.Introspectable.Introspect
+
+dbus-send --system --type=method_call  --print-reply --dest="org.asamk.Signal" /org/asamk/Signal/_PHONENUMBER org.asamk.Signal.getGroupIds
 
 systemctl status dbus.service
 ```
