@@ -34,7 +34,8 @@ abstract class Link extends Initialize
 				$uri	= trim($uri);
 				break;
 			} elseif ($cTime > $tTime) {
-				throw new \Exception("Failed to get link data");
+				
+				throw new \Exception("Failed to get link data: '".$uri."'");
 			} else {
 				usleep(100000);//dont max out the cpu/io for no reason
 			}

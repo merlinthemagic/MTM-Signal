@@ -34,12 +34,12 @@ abstract class Exec extends Base
 		$this->initialize();
 		$baseCmd		= $this->getSignalBinFile()->getPathAsString();
 		$baseCmd		.= " --config \"".$userObj->getDataDir()->getPathAsString()."\"";
-		$strCmd			= $baseCmd." ".$strCmd." | base64 -w0; echo \"MtmEmpty\" || echo \"MtmError\"";
+		$strCmd			= $baseCmd." ".$strCmd." | base64 -w0; echo \"MtmCompleted\"";
 
 		$this->ctrlWrite($strCmd);
-		$rObj			= $this->ctrlRegExRead("(MtmEmpty|MtmError)", $timeout);
-		$rObj->data		= trim(base64_decode(rtrim(trim($rObj->data), "MtmEmpty")));
-		$rObj->error	= rtrim(trim($rObj->error), "MtmError");
+		$rObj			= $this->ctrlRegExRead("(MtmCompleted)", $timeout);
+		$rObj->data		= trim(base64_decode(rtrim(trim($rObj->data), "MtmCompleted")));
+		$rObj->error	= rtrim(trim($rObj->error));
 		return $rObj;
 	}
 	protected function ctrlWrite($strCmd)
@@ -54,5 +54,5 @@ abstract class Exec extends Base
 	protected function ctrlRead($timeout)
 	{
 		return $this->getCtrl()->read($timeout);
-	}	
+	}
 }
