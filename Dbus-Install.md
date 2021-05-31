@@ -87,6 +87,14 @@ ACTON: change the to reflect your binary path before executing
 dbus-send --system --print-reply --type=method_call --dest="org.asamk.Signal" /org/asamk/Signal org.freedesktop.DBus.Introspectable.Introspect
 ```
 
+### list dbus user methods
+
+NOTE: replace PHONENBR with a registred number
+
+```
+dbus-send --system --print-reply --type=method_call --dest="org.asamk.Signal" /org/asamk/Signal/_PHONENBR org.freedesktop.DBus.Introspectable.Introspect
+```
+ 
 
 ####Random notes:
 
