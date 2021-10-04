@@ -28,9 +28,6 @@ abstract class Receive extends Lists
 			} else {
 				//deal with other types of messages
 			}
-			
-			
-			
 			if ($rObj !== null) {
 				$rObjs[]	= $rObj;
 			}

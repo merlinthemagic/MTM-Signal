@@ -40,7 +40,7 @@ chmod +x /path/to/mtm-signal-api/Vendors/SignalCli/bin/signal-cli
 ```
 
 
-##Quick start:
+## Quick start:
 
 
 ### Get a Client:
@@ -56,17 +56,42 @@ $safePath		= "/path/to/secure/folder/";
 $clientObj		= \MTM\SignalApi\Facts::getClients()->getSignalCli($safePath);
 ```
 
-### Get a user to work with:
+### Register To Existing Account: 
+
+#### Link to a master account:
+
+This will generate a URI that can be used to link the client as a slave on an existing master.
+This method will NOT disconnect any existing devices. It will simply allow 
+a master device to approve the server as a linked account
+NOTE: This method is executed on the client object, not on any specific user. The generated user depends on
+the master device that accepts the link
 
 ```
-$phoneNumber	= "+12134567890";
-$userObj	= $clientObj->getUser($phoneNumber);
-
+$name		= "MyTestServer"; //shows up on master as identification for this client
+$uri		= $clientObj->getDeviceLinkUri($name); //will throw on error
 ```
 
-### Register New Account 
+Now load the URI into your favorite QR generator or paste it to:
+https://www.cssscript.com/demo/pure-javascript-qr-code-generator-qrious/
+(Change to allow 15% damage or you will get alot of mis reads)
+Then scan the QR code with a master device.
+Voila the server has a new linked user account that can send and receive messages
 
-####Register via Captcha:
+#### Accept slave link request:
+
+This will accept a request to link from a slave.
+This method will NOT disconnect any existing devices. It will simply allow 
+a slave device to become a linked account of the master account that approves the request
+NOTE: This method is executed on the user object. The slave user depends on who generate the uri
+
+```
+$uri		= "tsdevice:/?uuid=BBm...";
+$userObj->linkDeviceByUri($uri); //will throw on error
+```
+
+### Register New Account:
+
+#### Register via Captcha:
 
 WARNING! This method will disconnect any existing devices from the phone number.
 You will be taking over the account, not linking a new device
@@ -82,21 +107,11 @@ $userObj->registerByCaptcha($captcha); //will throw on error
 
 You will receive an SMS code on your device, use that to run the next step of verification
 
-####Register via Voice:
+#### Register via Voice:
 
 ```
 $userObj->registerByVoice();
 ```
-
-####Is a phone number registered:
-
-```
-$nbr		= "+13106545322";
-$bool		= $userObj->isPhoneRegistered($nbr);
-```
-
-
-### Verify New Account 
 
 #### Verify via SMS code:
 
@@ -110,6 +125,23 @@ $userObj->verifyBySmsCode($code); //will throw on error
 ```
 $code			= "863457";
 $userObj->verifyByVoiceCode($code); //will throw on error
+```
+
+
+### Use the client:
+
+#### Start by getting a user to work with:
+
+```
+$phoneNumber	= "+12134567890";
+$userObj	= $clientObj->getUser($phoneNumber);
+```
+
+#### Is a phone number registered:
+
+```
+$nbr		= "+13106545322";
+$bool		= $userObj->isPhoneRegistered($nbr);
 ```
 
 ### Send message:
@@ -149,37 +181,6 @@ foreach ($msgObjs as $msgObj) {
 	}
 }
 ```
-
-#### Link to a master account:
-
-This will generate a URI that can be used to link the client as a slave on an existing master.
-This method will NOT disconnect any existing devices. It will simply allow 
-a master device to approve the server as a linked account
-NOTE: This method is executed on the client object, not on any specific user. The generated user depends on
-the master device that accepts the link
-
-```
-$name		= "My Test Server"; //shows up on master as identification
-$uri		= $clientObj->getDeviceLinkUri($name); //will throw on error
-```
-
-Now load the URI into your favorite QR generator or paste it to:
-https://www.cssscript.com/demo/pure-javascript-qr-code-generator-qrious/
-Then scan the QR code with a master device.
-Voila the server has a new linked user account that can send and receive messages
-
-#### Accept slave link request:
-
-This will accept a request to link from a slave.
-This method will NOT disconnect any existing devices. It will simply allow 
-a slave device to become a linked account of the master account that approves the request
-NOTE: This method is executed on the user object. The slave user depends on who generate the uri
-
-```
-$uri		= "tsdevice:/?uuid=BBm...";
-$userObj->linkDeviceByUri($uri); //will throw on error
-```
-
 
 ### Contacts:
 
