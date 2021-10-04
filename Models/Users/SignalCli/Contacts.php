@@ -6,6 +6,21 @@ abstract class Contacts extends Base
 {
 	protected $_contactObjs=null;
 	
+	protected function newContact($username, $name=null, $blocked=false)
+	{
+		if ($this->getContactByUsername($username, false) !== null) {
+			throw new \Exception("Cannot add contact exists");
+		} elseif ($username === $this->getUsername()) {
+			throw new \Exception("Cannot add self as contact");
+		}
+		if ($name === null) {
+			$name	= $username;
+		}
+		$hash						= hash("sha256", strtolower(trim($username)).strtolower(trim($this->getUsername())));
+		$cObj						= new \MTM\SignalApi\Models\Contacts\SignalCli\Zstance();
+		$this->_contactObjs[$hash]	= $cObj->initialize($this, $username, $name, $blocked);
+		return $cObj;
+	}
 	public function getContacts($refresh=true)
 	{
 		if (is_bool($refresh) === false) {
@@ -22,7 +37,7 @@ abstract class Contacts extends Base
 					if (array_key_exists($hash, $this->_contactObjs) === true) {
 						$cObj	= $this->_contactObjs[$hash];
 					} else {
-						$cObj	= new \MTM\SignalApi\Models\Contacts\SignalCli\Zstance();
+						$cObj	= $this->newContact($rObj->username, $rObj->name, $rObj->blocked);
 					}
 					$nObjs[$hash]	= $cObj->initialize($this, $rObj->username, $rObj->name, $rObj->blocked);
 				}

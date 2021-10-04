@@ -13,45 +13,61 @@ Install Rust:
 
 ```
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-Setup components:
-
-```
 source $HOME/.cargo/env
+```
 
-wget -O /tmp/gradle.zip  https://services.gradle.org/distributions/gradle-7.2-bin.zip
-mkdir /opt/gradle
-unzip -d /opt/gradle /tmp/gradle.zip
-export PATH=$PATH:/opt/gradle/gradle-7.2/bin
+Build signal:
 
-cd /tmp/
-wget -O /tmp/libsignal-client-0.9.6.zip https://github.com/signalapp/libsignal-client/archive/refs/tags/v0.9.6.zip
-
-unzip libsignal-client-0.9.6.zip
-cd libsignal-client-0.9.6/java
-sed -i "s/, ':android'//" settings.gradle
-chmod +x build_jni.sh
-./build_jni.sh desktop
-
-cd /tmp/
-wget -O /tmp/zkgroup-0.8.2.zip https://github.com/signalapp/zkgroup/archive/refs/tags/v0.8.2.zip
-unzip zkgroup-0.8.2.zip
-cd zkgroup-0.8.2
-make libzkgroup
-
+```
 cd /tmp/
 git clone https://github.com/AsamK/signal-cli.git
-cd ./signal-cli
-gradle build
-gradle installDist
-gradle distTar
+cd signal-cli/
 
-cd /tmp/zkgroup-0.8.2/target/release/
-zip -u /tmp/signal-cli/build/install/signal-cli/lib/zkgroup-java-0.7.0.jar libzkgroup.so
+./gradlew build
+./gradlew installDist
+./gradlew distTar
 
-cd /tmp/libsignal-client-0.9.6/target/release
-zip -u /tmp/signal-cli/build/install/signal-cli/lib/signal-client-java-0.9.5.jar libsignal_jni.so
+cp build/distributions/signal-cli-* /tmp/
+
+cd /tmp/
+tar -xvf signal-cli-0.9.0.tar
+
+
+```
+
+Build libsignal_jni.so:
+
+```
+cd /tmp/
+wget https://github.com/signalapp/libsignal-client/archive/refs/tags/v0.9.6.tar.gz
+tar -zxf v0.9.6.tar.gz
+cd libsignal-client-0.9.6/java
+
+//Prevent building the android library
+sed -i "s/, ':android'//" settings.gradle
+./build_jni.sh desktop
+
+cp java/src/main/resources/libsignal_jni.so /tmp/
+
+cd /tmp/
+zip -u /tmp/signal-cli-0.9.0/lib/signal-client-java-*.jar libsignal_jni.so
+
+```
+
+
+Build libzkgroup.so: (0.8.x does not work)
+
+```
+cd /tmp/
+wget -O /tmp/zkgroup-0.7.4.zip https://github.com/signalapp/zkgroup/archive/refs/tags/v0.7.4.zip
+unzip zkgroup-0.7.4.zip
+cd zkgroup-0.7.4
+make libzkgroup
+
+cp target/release/libzkgroup.so /tmp/
+
+cd /tmp/
+zip -u /tmp/signal-cli-0.9.0/lib/zkgroup-java-*.jar libzkgroup.so
 
 ```
 

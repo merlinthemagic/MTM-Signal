@@ -30,29 +30,38 @@ abstract class Groups extends Contacts
 			foreach ($rObjs as $rObj) {
 				$hash		= hash("sha256", strtolower(trim($rObj->id)).strtolower(trim($this->getUsername())));
 				if (array_key_exists($hash, $this->_groupObjs) === true) {
-					$cObj	= $this->_groupObjs[$hash];
+					$grpObj	= $this->_groupObjs[$hash];
 				} else {
-					$cObj	= new \MTM\SignalApi\Models\Groups\SignalCli\Zstance();
+					$grpObj	= new \MTM\SignalApi\Models\Groups\SignalCli\Zstance();
 				}
-				
+
 				$memberObjs	= array();
-				foreach ($rObj->members as $uname) {
-					if ($uname !== $this->getUsername()) {
-						$memberObjs[]	= $this->getContactByUsername($uname, true);
+				foreach ($rObj->members as $member) {
+					if ($member->number !== $this->getUsername()) {
+						$cObj	= $this->getContactByUsername($member->number, false);
+						if ($cObj === null) {
+							$cObj	= $this->newContact($member->number, $member->number, false);
+						}
+						$memberObjs[]	= $cObj;
 					}
 				}
+
 				$isAdmin	= false;
 				$adminObjs	= array();
-				foreach ($rObj->admins as $uname) {
-					if ($uname !== $this->getUsername()) {
-						$adminObjs[]	= $this->getContactByUsername($uname, true);
+				foreach ($rObj->admins as $admin) {
+					if ($admin->number !== $this->getUsername()) {
+						$cObj	= $this->getContactByUsername($admin->number, false);
+						if ($cObj === null) {
+							$cObj	= $this->newContact($admin->number, $admin->number, false);
+						}
+						$adminObjs[]	= $cObj;
 					} else {
 						$isAdmin		= true;
 					}
 				}
-				
-				//name and description can be null
-				$nObjs[$hash]	= $cObj->initialize($this, $rObj->id, $rObj->name, $rObj->description, $rObj->groupInviteLink, $rObj->isMember, $isAdmin, $rObj->isBlocked, $memberObjs, $adminObjs);
+
+				//name and description can be null in 0.8.3, fized in 0.9.0
+				$nObjs[$hash]	= $grpObj->initialize($this, $rObj->id, $rObj->name, $rObj->description, $rObj->groupInviteLink, $rObj->isMember, $isAdmin, $rObj->isBlocked, $memberObjs, $adminObjs);
 
 				//need to implement:
 				//pendingMembers, requestingMembers, 
