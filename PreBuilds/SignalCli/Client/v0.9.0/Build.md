@@ -55,7 +55,7 @@ zip -u /tmp/signal-cli-0.9.0/lib/signal-client-java-*.jar libsignal_jni.so
 ```
 
 
-Build libzkgroup.so: (0.8.x does not work)
+Build libzkgroup.so: (0.8.x branch does not work with signal-cli, so get the latest 0.7.x)
 
 ```
 cd /tmp/

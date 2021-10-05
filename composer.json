@@ -11,13 +11,13 @@
 		}
 	],
 	"require" : {
-		"php" : "^7.3.0",
+		"php" : ">=7.3.0",
 		"merlinthemagic/mtm-utilities" : ">=0.0.1",
 		"merlinthemagic/mtm-fs" : ">=0.0.1"
 	},
 	"autoload" : {
 		"files" : [
-			"./Enable.php"
+			"./Src/Enable.php"
 		]
 	},
 	"minimum-stability" : "dev"
