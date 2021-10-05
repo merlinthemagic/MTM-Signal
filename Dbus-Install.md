@@ -29,7 +29,7 @@ chown -R signalUsr /var/lib/signal-cli/
 ACTON: change the ExecStart path in the signal-cli.service file to reflect your binary path before copying the file
 
 ```
-cd /path/to/Mtm-Signal-Api/Vendors/SignalCli/dbus
+cd /path/to/mtm-Signal-Api/Vendors/SignalCli/dbus
 cp ./org.asamk.Signal.conf /etc/dbus-1/system.d/
 cp ./org.asamk.Signal.service /usr/share/dbus-1/system-services/
 
